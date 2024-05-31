@@ -21,6 +21,13 @@ class Item:
         item1.price = newPrice
         return item1
     def Item(string itemName, string itemDescription, strnig itemCategory, int stock, double price):
+        Item tempItem
+        tempItem.itemName = itemName
+        tempItem.itemDescription = itemDescription
+        tempItem.itemCategory = itemCategory
+        tempItem.stock = stock
+        tempItem.price = price
+        return tempItem
         
 
 class shoppingCart:
