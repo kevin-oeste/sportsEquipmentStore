@@ -15,5 +15,8 @@ def addItem():
 def itemAdd():
     if request.method == 'POST':
         try:
-    #temp
-    return
+            name = request.form['itemName']
+            desc = request.form['itemDescription']
+            cat = request.form['itemCategory']
+            stock = request.form['itemStock']
+            price = request.form['itemPrice']
