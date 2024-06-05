@@ -1,5 +1,21 @@
 from flask import Flask, render_template, request
-import pymongo as mongo
+import pymongo 
+from pymongo import MongoClient as mc
+
+#connect to database
+try:
+    uri = "mongodb+srv://oestekevin:nbFFcWwiS4OYx5k4@sportsequipmentserver.xsphcuo.mongodb.net/?retryWrites=true&w=majority&appName=sportsEquipmentServer"
+    client = mc(uri)
+    
+    database = client["sportsEquipmentServer"]
+    collection = database["ShoppingCart"]
+
+    #Replace with code
+    
+    client.close()
+except Exception as e:
+    raise Exception("The following error occured: ", e)
+    
 
 app = Flask(__name__)
 
@@ -20,3 +36,4 @@ def itemAdd():
             cat = request.form['itemCategory']
             stock = request.form['itemStock']
             price = request.form['itemPrice']
+            
