@@ -2,6 +2,7 @@
 lastItemId = 0
 lastCustomerId = 0
 lastOrderId = 0
+lastTrackingNo = 0
 class Item:
     #Primary Key (changed name from productId to itemId)
     int itemId
@@ -86,8 +87,13 @@ class order:
         
 
 class shipping:
+    #primary key
     string trackingNo
     #foreign key order(orderId)
     int orderId
+    string shipDate
+    string shipAddress
+    def __init__(self):
+        trackingNo = lastTrackingNo + 1
         
     
