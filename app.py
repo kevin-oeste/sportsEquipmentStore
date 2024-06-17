@@ -1,60 +1,108 @@
 from flask import Flask, render_template, request
-import pymongo 
-from pymongo import MongoClient as mc
-import inventoryManagement as im
+#these were causing trouble on my machine, so I temporarily commented them out
+#import pymongo
+#from pymongo import MongoClient as mc
+#inventoryManagement is not working, too many syntax errors
+#import inventoryManagement as im
 
-#unsure if I will need these in the future, database should handle it
+# unsure if I will need these in the future, database should handle it
 inventory = []
 shoppingCart = []
 
-#connect to database
-#unfinished
+# connect to database
+# unfinished
+"""
 try:
     uri = "mongodb+srv://oestekevin:nbFFcWwiS4OYx5k4@sportsequipmentserver.xsphcuo.mongodb.net/?retryWrites=true&w=majority&appName=sportsEquipmentServer"
     client = mc(uri)
-    
+
     database = client["sportsEquipmentServer"]
     collection = database["ShoppingCart"]
 
-    #Replace with code
-    
+    # Replace with code
+
     client.close()
 except Exception as e:
     raise Exception("The following error occured: ", e)
-    
+
+"""
 
 app = Flask(__name__)
 
-#home page
+displayRole = "Customer"
+
+# home page
 @app.route('/')
 def index():
-    return render_template('index.html')
+    global displayRole
+    return render_template('index.html', methods=['POST', 'GET'], displayRole = displayRole)
 
-#displays addItem webpage
-@app.route('/addItem')
+
+# displays addItem webpage
+@app.route('/addItem', methods=['POST', 'GET'])
 def addItem():
     return render_template('addItem.html')
 
-#unfinished
-#Actually adds the item to the database
-@app.route('/itemAdd', methods = ['POST', 'GET'])
+
+# unfinished
+# Actually adds the item to the database
+@app.route('/itemAdd', methods=['POST', 'GET'])
 def itemAdd():
     if request.method == 'POST':
         try:
-            #get parameters
+            # get parameters
             name = request.form['itemName']
             desc = request.form['itemDescription']
             cat = request.form['itemCategory']
             stock = request.form['itemStock']
             price = request.form['itemPrice']
-            #calls parameterized constructor
-            inventory.append(im.Item(name, desc, cat, stock, price))
+            # calls parameterized constructor
+            #inventory.append(im.Item(name, desc, cat, stock, price))
         except:
             msg = "Error: Item could not be added.\n"
         finally:
-            return render_template('result.html', msg = msg)
+            return render_template('result.html', msg=msg)
 
-#Set debug to true for now, but set it to false when we turn it in
+@app.route('/shopping', methods = ['POST', 'GET'])
+def shopping():
+    global displayRole
+    return render_template('shopping.html', displayRole = displayRole)
+
+@app.route('/updateInventory', methods = ['POST', 'GET'])
+def updateInventory():
+    global displayRole
+    if(displayRole == "Manager"):
+        return render_template('updateInventory.html')
+    else:
+        return render_template('accessDenied.html')
+
+@app.route('/changeRole', methods = ['POST', 'GET'])
+def changeRole():
+    global displayRole
+    return render_template('changeRole.html', displayRole = displayRole)
+@app.route('/customerRole', methods = ['POST', 'GET'])
+def customerRole():
+    global displayRole
+    displayRole = "Customer"
+    #add mongoDB role code here
+    return render_template('roleGranted.html',  displayRole = displayRole)
+@app.route('/managerRole', methods = ['POST', 'GET'])
+def managerRole():
+    global displayRole
+    displayRole = "Manager"
+    #add mongoDB role code here
+    return render_template('roleGranted.html',  displayRole = displayRole)
+@app.route('/accessDenied', methods = ['POST', 'GET'])
+def accessDenied():
+    global displayRole
+    return render_template('accessDenied.html', displayRole = displayRole)
+@app.route('/removeItem', methods = ['POST', 'GET'])
+def removeItem():
+    return render_template('removeItem.html')
+@app.route('/checkout', methods = ['POST', 'GET'])
+def checkout():
+    return render_template('checkout.html')
+# Set debug to true for now, but set it to false when we turn it in
 if __name__ == "__main__":
-    app.run(debug = True)
-            
+    app.run(port = 8000, debug=True)
+
