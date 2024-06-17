@@ -1,7 +1,5 @@
 from flask import Flask, render_template, request
-#these were causing trouble on my machine, so I temporarily commented them out
-#import pymongo
-#from pymongo import MongoClient as mc
+from pymongo import MongoClient as mc
 #inventoryManagement is not working, too many syntax errors
 #import inventoryManagement as im
 
