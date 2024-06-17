@@ -8,6 +8,7 @@ inventory = []
 shoppingCart = []
 
 # connect to database
+# created two database users, dbManager (Manager) and basicCustomer (Customer)
 # unfinished
 """
 try:
