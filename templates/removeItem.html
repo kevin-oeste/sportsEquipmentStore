@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this template
+-->
+<html>
+    <head>
+        <title>Remove an item</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <H1>Remove Item</H1>
+        <form action = "{{ url_for('itemRemove')}}" method = "POST">
+            <h3>Item Information</h3>
+            <label>Item Id: </label>
+            <INPUT TYPE ="text" NAME ="itemId">
+	    <br>
+            
+            <INPUT TYPE ="submit" VALUE ="Submit">
+        </form>
+        <BR>
+        <a href ="{{ url_for('index')}}">Back to homepage</a>
+    </body>
+</html>

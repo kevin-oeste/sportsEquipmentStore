@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html>
+    <head>
+        <title>Store</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <H1>Welcome to the store!</H1> <br>
+	<H2>Your current role is: {{displayRole}}</H2>
+	Insert the items here
+	<h4>
+        <a href ="{{url_for('checkout')}}">Checkout</a> <br>
+        <a href ="{{url_for('index')}}">Go Back</a> <br>
+	</h4>
+    </body>
+</html>

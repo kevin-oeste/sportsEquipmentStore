@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this template
+-->
+<html>
+    <head>
+        <title>Add an item</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <H1>Add a New Item</H1>
+        <form action = "{{ url_for('itemAdd')}}" method = "POST">
+            <h3>Item Information</h3>
+            <label>Name: </label>
+            <INPUT TYPE ="text" NAME ="itemName">
+	    <br>
+            
+            <label>Item Description: </label>
+            <INPUT TYPE ="text" NAME ="itemDescription"> <br>
+            
+             <label>Category: </label>
+            <INPUT TYPE ="text" NAME ="itemCategory"> <br>
+            
+             <label>Stock: </label>
+            <INPUT TYPE ="text" NAME ="itemStock"> <br>
+            
+            <label>Price: </label>
+            <INPUT TYPE ="text" NAME ="itemPrice"> <br>
+            
+            <INPUT TYPE ="submit" VALUE ="Submit">
+        </form>
+        <BR>
+        <a href ="{{ url_for('index')}}">Back to homepage</a>
+    </body>
+</html>
