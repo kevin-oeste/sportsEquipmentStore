@@ -1,22 +1,16 @@
 from flask import Flask, render_template, request
-from pymongo import MongoClient as mc
-#inventoryManagement is not working, too many syntax errors
-#import inventoryManagement as im
-
-# unsure if I will need these in the future, database should handle it
-inventory = []
-shoppingCart = []
+from pymongo import MongoClient
 
 # connect to database
-# created two database users, dbManager (Manager) and basicCustomer (Customer)
 # unfinished
-"""
+
 try:
     uri = "mongodb+srv://oestekevin:nbFFcWwiS4OYx5k4@sportsequipmentserver.xsphcuo.mongodb.net/?retryWrites=true&w=majority&appName=sportsEquipmentServer"
-    client = mc(uri)
+    client = MongoClient(uri)
 
-    database = client["sportsEquipmentServer"]
-    collection = database["ShoppingCart"]
+    db = client.inventoryDB
+    inventory = db.inventory
+    cart = db.shoppingCart
 
     # Replace with code
 
@@ -24,7 +18,6 @@ try:
 except Exception as e:
     raise Exception("The following error occured: ", e)
 
-"""
 
 app = Flask(__name__)
 
