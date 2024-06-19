@@ -2,13 +2,14 @@ from flask import Flask, render_template, request, redirect
 from pymongo import MongoClient
 #from pymongo_get_database import get_database
 import uuid
+from bson.objectid import ObjectId
 
 # connect to database
 # unfinished
 
 #create a list of ids of inserted items
 idList = []
- 
+
 uri = ("mongodb+srv://oestekevin:eVCPjvJrbIU8QWcf@sportsequipmentserver"
          ".xsphcuo.mongodb.net/?retryWrites=true&w=majority&appName=sportsEquipmentServer")
 client = MongoClient(uri)
@@ -67,6 +68,8 @@ def itemAdd():
 
 @app.route('/result', methods = ['POST', 'GET'])
 def result():
+    if msg is null:
+        msg = ""
     return render_template(result.html, msg = msg)
 @app.route('/shopping', methods=['POST', 'GET'])
 def shopping():
@@ -113,7 +116,9 @@ def accessDenied():
 
 @app.route('/removeItem', methods=['POST', 'GET'])
 def removeItem():
-    return render_template('removeItem.html')
+    global inventory
+    items = inventory.find()
+    return render_template('removeItem.html', items = items)
 @app.route('/itemRemove', methods=['POST', 'GET'])
 def itemRemove():
     if(request.method == 'POST'):
@@ -121,12 +126,20 @@ def itemRemove():
             global inventory
             itemIndex = request.form['itemIndex']
             items = inventory.find()
-
         except:
             msg = "Error: Item could not be removed.\n"
         finally:
-            return render_template('result.html', msg=msg, items = items)
-
+            return render_template('result.html', msg=msg)
+@app.post("/<id>/delete/")
+def delete(id):
+    global inventory
+    try:
+        inventory.delete_one({"_id":ObjectId(id)})
+        msg = "Item Deleted."
+    except:
+        msg = "Error: Item could not be removed."
+    finally:
+        return render_template("result.html", msg = msg)
 @app.route('/listItems', methods=['POST', 'GET'])
 def listItems():
     global inventory
@@ -137,7 +150,6 @@ def listItems():
 @app.route('/checkout', methods=['POST', 'GET'])
 def checkout():
     return render_template('checkout.html')
-
 
 # Set debug to true for now, but set it to false when we turn it in
 if __name__ == "__main__":
