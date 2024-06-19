@@ -1,5 +1,8 @@
 #Setup database with MongoDB
 
+#Note: This file mostly exists to test connection to the MongoDB server
+#As of June 18, this file serves no purpose in the functionality of our app
+
 #from flask import Flask, render_template, request
 import pymongo
 import sys
