@@ -24,6 +24,8 @@ app = Flask(__name__)
 
 displayRole = "Customer"
 
+total = 0
+
 
 # home page
 @app.route('/')
@@ -37,6 +39,14 @@ def index():
 def addItem():
     return render_template('addItem.html')
 
+@app.route('/clearCart', methods = ['POST', 'GET'])
+def clearCart():
+    global cart
+    cart.delete_many({})
+    cart1 = cart.find()
+    items = inventory.find()
+    global displayRole
+    return render_template('shopping.html' ,displayRole = displayRole, items = items, cart1 = cart1)
 
 # unfinished
 # Actually adds the item to the database
@@ -74,7 +84,29 @@ def result():
 @app.route('/shopping', methods=['POST', 'GET'])
 def shopping():
     global displayRole
-    return render_template('shopping.html', displayRole=displayRole)
+    global inventory
+    global cart
+    items = inventory.find()
+    cart1 = cart.find()
+    return render_template('shopping.html', displayRole=displayRole, items = items, cart1 = cart1)
+
+@app.post("/<id>/addToCart")
+def addToCart(id):
+    global inventory
+    global cart
+    try:
+        cart.insert_one(inventory.find_one({"_id":ObjectId(id)}, {}))
+        print("Item Added.")
+        global total
+
+        #inventory.update_one({"_id":ObjectId(id)}, )
+
+    except:
+        print("Error: Item could not be added to cart.")
+    finally:
+        cart1 = cart.find()
+        items = inventory.find()
+        return render_template("shopping.html", displayRole = displayRole, items = items, cart1 = cart1)
 
 
 @app.route('/updateInventory', methods=['POST', 'GET'])
@@ -140,6 +172,7 @@ def delete(id):
         msg = "Error: Item could not be removed."
     finally:
         return render_template("result.html", msg = msg)
+
 @app.route('/listItems', methods=['POST', 'GET'])
 def listItems():
     global inventory
