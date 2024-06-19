@@ -8,7 +8,7 @@ import uuid
 
 #create a list of ids of inserted items
 idList = []
-
+ 
 uri = ("mongodb+srv://oestekevin:eVCPjvJrbIU8QWcf@sportsequipmentserver"
          ".xsphcuo.mongodb.net/?retryWrites=true&w=majority&appName=sportsEquipmentServer")
 client = MongoClient(uri)
@@ -59,6 +59,7 @@ def itemAdd():
             x = inventory.insert_one(newItem)
             #idList.append({"id": x.inserted_id, "name": name})
             msg = "Item Added."
+            #return redirect(url_for('result'))
         except:
             msg = "Error: Item could not be added.\n"
         finally:
@@ -113,7 +114,25 @@ def accessDenied():
 @app.route('/removeItem', methods=['POST', 'GET'])
 def removeItem():
     return render_template('removeItem.html')
+@app.route('/itemRemove', methods=['POST', 'GET'])
+def itemRemove():
+    if(request.method == 'POST'):
+        try:
+            global inventory
+            itemIndex = request.form['itemIndex']
+            items = inventory.find()
 
+        except:
+            msg = "Error: Item could not be removed.\n"
+        finally:
+            return render_template('result.html', msg=msg, items = items)
+
+@app.route('/listItems', methods=['POST', 'GET'])
+def listItems():
+    global inventory
+    items = inventory.find()
+    msg = ""
+    return render_template('listItems.html', msg=msg, items = items)
 
 @app.route('/checkout', methods=['POST', 'GET'])
 def checkout():
