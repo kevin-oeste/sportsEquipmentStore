@@ -11,8 +11,19 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
     </head>
     <body>
         <H1>Thank you for shopping with us!</H1> <br>
+	Items Purchased: <br>
+	{% for item in cart1 %}
+	<div class = item>
+	  {{item['name']}} - ${{item['price']}}<br>
+	  <br>
+	  </div>
+      	{% endfor %}
+	Subtotal: {{total}}<br>
+	Sales Tax: {{salesTax}}<br>
+	Grand Total: {{grandTotal}}<br>
+
 	<h4>
-        <a href ="{{url_for('index')}}">Go Back</a> <br>
+        <a href ="{{url_for('clearCart')}}">Go Back</a> <br>
 	</h4>
     </body>
 </html>

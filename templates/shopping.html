@@ -18,7 +18,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
 	  {{item['name']}} - ${{item['price']}}<br>
 	  <br>
 	  </div>
-      {% endfor %}	
+      {% endfor %}
+	Current Total: ${{total}}<br>	
 	<h4>
         <a href ="{{url_for('clearCart')}}">Clear Cart</a> <br>
         <a href ="{{url_for('checkout')}}">Checkout</a> <br>

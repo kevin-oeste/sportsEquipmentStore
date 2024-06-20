@@ -14,22 +14,22 @@ Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this
         <form action = "{{ url_for('itemAdd')}}" method = "POST">
             <h3>Item Information</h3>
             <label>Name: </label>
-            <INPUT TYPE ="text" NAME ="itemName">
+            <INPUT TYPE ="text" NAME ="itemName" required>
 	    <br>
             
             <label>Item Description: </label>
-            <INPUT TYPE ="text" NAME ="itemDescription"> <br>
+            <INPUT TYPE ="text" NAME ="itemDescription" required> <br>
             
              <label>Category: </label>
-            <INPUT TYPE ="text" NAME ="itemCategory"> <br>
+            <INPUT TYPE ="text" NAME ="itemCategory" required> <br>
             
              <label>Stock: </label>
-            <INPUT TYPE ="text" NAME ="itemStock"> <br>
+            <INPUT TYPE ="number" NAME ="itemStock" required> <br>
             
             <label>Price: </label>
-            <INPUT TYPE ="text" NAME ="itemPrice"> <br>
+            <INPUT TYPE ="text" NAME ="itemPrice" required> <br>
             
-            <INPUT TYPE ="submit" VALUE ="Submit">
+            <INPUT TYPE ="submit" VALUE ="Add Item">
         </form>
         <BR>
         <a href ="{{ url_for('index')}}">Back to homepage</a>
