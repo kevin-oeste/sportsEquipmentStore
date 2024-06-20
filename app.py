@@ -198,8 +198,23 @@ def checkout():
     global cart
     global total
     cart1 = cart.find()
+
+    for item in cart1:
+        item_id = item.get('_id')
+        item_stock = int(item.get('stock'))
+        item_stock = item_stock - 1
+        item_name = item.get('name')
+        emptyName = item_name + " is out of stock"
+        if(item_stock >= 0):
+            inventory.update_one({"_id":item_id}, {"$set":{"stock": item_stock}})
+        else:
+            total -= float(item.get('price'))
+            cart.update_one({"_id":item_id}, {"$set":{"price": "0"}})
+            cart.update_one({"_id":item_id}, {"$set":{"name": emptyName}})
+
     salesTax = round(total * 0.07, 2)
-    grandTotal = total + salesTax
+    grandTotal = round(total + salesTax, 2)
+    cart1 = cart.find()
 
     return render_template('checkout.html', total = total, cart1 = cart1, salesTax = salesTax, grandTotal = grandTotal)
 
