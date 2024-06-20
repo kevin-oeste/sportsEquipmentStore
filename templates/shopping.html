@@ -15,7 +15,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
 	Your Cart:<br>
 	{% for item in cart1 %}
 	<div class = item>
-	  {{item['name']}} - ${{item['price']}}<br>
+	  {{item['name']}} - ${{item['price']}}
+	  <form method = "POST" action = {{url_for('cartDelete', id = item["_id"])}}>
+	  <input type = "submit" value = "Remove from cart"/>
+	  </form>
 	  <br>
 	  </div>
       {% endfor %}
