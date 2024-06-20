@@ -24,6 +24,7 @@ app = Flask(__name__)
 
 displayRole = "Customer"
 
+global total
 total = 0
 
 
@@ -46,7 +47,9 @@ def clearCart():
     cart1 = cart.find()
     items = inventory.find()
     global displayRole
-    return render_template('shopping.html' ,displayRole = displayRole, items = items, cart1 = cart1)
+    global total
+    total = 0
+    return render_template('shopping.html' ,displayRole = displayRole, items = items, cart1 = cart1, total = total)
 
 # unfinished
 # Actually adds the item to the database
@@ -86,27 +89,36 @@ def shopping():
     global displayRole
     global inventory
     global cart
+    global total
     items = inventory.find()
     cart1 = cart.find()
-    return render_template('shopping.html', displayRole=displayRole, items = items, cart1 = cart1)
+    return render_template('shopping.html', displayRole=displayRole, items = items, cart1 = cart1, total = total)
 
 @app.post("/<id>/addToCart")
 def addToCart(id):
     global inventory
     global cart
+    global total
     try:
         cart.insert_one(inventory.find_one({"_id":ObjectId(id)}, {}))
+        addedPrice = inventory.find_one({"_id":ObjectId(id)}, {"price":1, "_id": 0})
+        addPrice = float(addedPrice["price"])
+        #print("AddedPrice: ", addedPrice)
+        #print("AddPrice: ", addPrice)
+        total += round(addPrice, 2)
+        total = round(total, 2)
         print("Item Added.")
-        global total
+
 
         #inventory.update_one({"_id":ObjectId(id)}, )
 
     except:
+
         print("Error: Item could not be added to cart.")
     finally:
         cart1 = cart.find()
         items = inventory.find()
-        return render_template("shopping.html", displayRole = displayRole, items = items, cart1 = cart1)
+        return render_template("shopping.html", displayRole = displayRole, items = items, cart1 = cart1, total = total)
 
 
 @app.route('/updateInventory', methods=['POST', 'GET'])
@@ -182,7 +194,14 @@ def listItems():
 
 @app.route('/checkout', methods=['POST', 'GET'])
 def checkout():
-    return render_template('checkout.html')
+    global inventory
+    global cart
+    global total
+    cart1 = cart.find()
+    salesTax = round(total * 0.07, 2)
+    grandTotal = total + salesTax
+
+    return render_template('checkout.html', total = total, cart1 = cart1, salesTax = salesTax, grandTotal = grandTotal)
 
 # Set debug to true for now, but set it to false when we turn it in
 if __name__ == "__main__":
