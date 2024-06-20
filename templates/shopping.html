@@ -12,10 +12,26 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
     <body>
         <H1>Welcome to the store!</H1> <br>
 	<H2>Your current role is: {{displayRole}}</H2>
-	Insert the items here
+	Your Cart:<br>
+	{% for item in cart1 %}
+	<div class = item>
+	  {{item['name']}} - ${{item['price']}}<br>
+	  <br>
+	  </div>
+      {% endfor %}	
 	<h4>
+        <a href ="{{url_for('clearCart')}}">Clear Cart</a> <br>
         <a href ="{{url_for('checkout')}}">Checkout</a> <br>
         <a href ="{{url_for('index')}}">Go Back</a> <br>
 	</h4>
+	{% for item in items %}
+	<div class = item>
+	  ID: {{loop.index}} {{item['name']}} - ${{item['price']}}<br>
+	  <form method = "POST" action = {{url_for('addToCart', id = item["_id"])}}>
+	  <input type = "submit" value = "Add to cart"/>
+	  </form>
+	  <br>
+	  </div>
+      {% endfor %}	
     </body>
 </html>
