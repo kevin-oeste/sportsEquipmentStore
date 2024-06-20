@@ -185,6 +185,26 @@ def delete(id):
     finally:
         return render_template("result.html", msg = msg)
 
+@app.post("/<id>/cartDelete/")
+def cartDelete(id):
+    global cart
+    items = inventory.find()
+    global displayRole
+    global total
+    removedPrice = cart.find_one({"_id": ObjectId(id)}, {"price": 1, "_id": 0})
+    removePrice = float(removedPrice['price'])
+
+    total = round(total - removePrice, 2)
+
+    try:
+        cart.delete_one({"_id":ObjectId(id)})
+        msg = "Item Removed from cart."
+    except:
+        msg = "Error: Item could not be removed."
+    finally:
+        cart1 = cart.find()
+        return render_template('shopping.html', displayRole=displayRole, items=items, cart1=cart1, total=total)
+
 @app.route('/listItems', methods=['POST', 'GET'])
 def listItems():
     global inventory
